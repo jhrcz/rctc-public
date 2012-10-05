@@ -1,0 +1,80 @@
+rctc (0.9-0) unstable; urgency=low
+
+  * upstream update
+    - pripravene jmx parametry v run.conf pro monitoring apod
+    - pro tc5.5+ nutny presun Xmx a Xms do JAVA_OPTS
+    - pripravene parametry pro tuning jvm
+    - detekovani symlinkovanych instanci pro globalni ALL
+    - init skript start/stop/restart vsech instanci a ne jen prvni v seznamu
+    - konfigurovatelne THREAD_DUMP_JSTACK_PARAMS aby mozno volit podle verze jdk/jstack
+
+ -- jahor <jahor@jhr.cz>  Wed, 18 Jan 2012 15:04:00 +0200
+
+rctc (0.8-0) unstable; urgency=low
+
+  * upstream update
+
+ -- jahor <jahor@jhr.cz>  Tue, 11 Oct 2011 17:11:09 +0200
+
+rctc (0.7-0) unstable; urgency=low
+
+  * upstream update
+
+ -- jahor <jahor@jhr.cz>  Fri, 7 Oct 2011 14:14:09 +0200
+
+rctc (0.6-2) unstable; urgency=low
+
+  * oprava zavilosti na cronic pro deb balik
+
+ -- jahor <jahor@jhr.cz>  Tue, 15 Aug 2011 18:14:09 +0200
+
+rctc (0.6-1) unstable; urgency=low
+
+  * oprava "su -" aby korektne i s naslednym cd
+
+ -- jahor <jahor@jhr.cz>  Tue, 15 Aug 2011 18:14:09 +0200
+
+rctc (0.5-1) unstable; urgency=low
+
+  * workdir cleanup by default
+  * force timezone
+  * force locale
+  * use su - tcname with dash for better environment
+
+ -- jahor <jahor@deebee>  Tue, 12 Aug 2011 22:14:09 +0200
+
+rctc (0.4-1) unstable; urgency=low
+
+  * workdir cleanup on start
+
+ -- jahor <jahor@deebee>  Sat, 21 Jun 2011 22:43:52 +0200
+
+rctc (0.3-3) unstable; urgency=low
+
+  * enhanced default run.conf config
+  * actions logging
+
+ -- root <root@deebee>  Sat, 29 Sep 2007 16:56:08 +0000
+
+rctc (0.3-2) unstable; urgency=low
+
+  * http listening port for tomcat
+  * run.conf with debug enable sample
+  * log4j and server xml samples to conf dir
+  * access log default on in server xml sample
+  * removed dependancy on etnpol-essential-packages
+
+ -- root <root@deebee>  Fri, 28 Sep 2007 09:08:07 +0000
+
+rctc (0.3-1) unstable; urgency=low
+
+  * added sample config files
+
+ -- Jan Horacek <jan.horacek@etnetera.cz>  Tue, 12 Jun 2007 15:27:24 +0200
+
+rctc (0.2-1) unstable; urgency=low
+
+  * rctc rewrite by jhr
+
+ -- Jan Horacek <jan.horacek@etnetera.cz>  Mon, 11 Jun 2007 16:40:13 +0200
+

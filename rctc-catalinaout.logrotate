@@ -1,0 +1,11 @@
+/srv/tc/*/logs/catalina.out {
+  rotate 6
+  size 100M
+  #daily
+  compress
+  missingok
+  notifempty
+  copytruncate
+  #dateext
+}
+

@@ -1,0 +1,2 @@
+instalace pomoci
+make DESTDIR=/some/destdir/required install

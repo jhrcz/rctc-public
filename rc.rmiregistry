@@ -1,0 +1,33 @@
+#!/bin/bash
+
+JAVA_HOME=/usr/lib/etnpol-sun-java-1.5.0
+JAVA_RMI_PORT=1099
+
+DAEMON=$JAVA_HOME/bin/rmiregistry
+OPTIONS=$JAVA_RMI_PORT
+
+DAEMONNAME=rmiregistry
+
+case $1 in
+	start)
+		echo -n "Starting $DAEMONNAME"
+		start-stop-daemon --start -b --quiet --pidfile /var/run/$DAEMONNAME.pid --exec $DAEMON -- $OPTIONS
+		echo .
+		;;
+	stop)
+		echo -n "Stopping $DAEMONNAME"
+		#start-stop-daemon --stop -s 9 --quiet --pidfile /var/run/$DAEMONNAME.pid --oknodo
+		killall rmiregistry
+		sleep 1
+		killall -9 rmiregistry
+		echo .
+		;;
+	restart)
+		$0 stop
+		$0 start
+		;;
+	*)
+		echo "Usage $0 <start|stop|restart>"
+		;;
+esac
+

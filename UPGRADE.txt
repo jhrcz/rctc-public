@@ -1,0 +1,32 @@
+* release 1.9 
+
+- starsi threaddumpy prejmenovat na nove schema nebo smazat
+
+* release 1.8 
+
+- zkontrolovat si kdy maji probihat threaddumpy, prednastaveno jen pri restartu
+- pokud pouzivany puvodni commandy force-restart nebo force-stop, tak prejit na obycejny restart/stop
+- v pripade skriptu vyzadujici rychly restart tc, pouzit fast-restart
+
+* release 1.7
+
+- nop
+
+* release 1.6 
+
+- zkontrolovat si struktruru run.conf a merge proti sablone
+- nove volby v run.conf, nutny merge - tyka se hlavne zapinani debugu
+- pokud neni specialne upraveny run.sh v instanci, tak ho odstranit, pouzije se balikovany a aktualizovatelny s balikem. v pripade, ze v instanci zustane, bude o nem vypisovano info jako WARN a bude pouzivan
+- diky lepsimu threaddumpu, trva jeho vygenerovani dele, patricne si upravit kdy ma byt provaden
+
+* release 1.5
+
+- prejmenovat si starsi thread dump logy
+
+* release 1.4
+
+- pokud byl nekde pouzivan vystup z cmd thread-dump, pak upravit, protoze se nevypisuje na stdout ale vypisuje se jen info v kterem souboru je zapsan
+
+* release 1.3
+
+- zkontrolovat si zarazeni do init sekvence

@@ -1,0 +1,5 @@
+# /etc/cron.d/rctc-catalinaout-logrotate
+# ukazkova definice pro pripad nutnosti castejsi rotace nez denni
+
+#*/10 * 	* * * 	root 	/usr/sbin/logrotate -f /etc/logrotate.d/rctc-catalinaout
+

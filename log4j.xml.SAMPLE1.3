@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
+        <!-- Log to a rolling file -->
+        <appender name="ROLFILE" class="org.apache.log4j.rolling.RollingFileAppender">
+		<rollingPolicy class="org.apache.log4j.rolling.TimeBasedRollingPolicy">
+			<!-- Set the path and file name pattern for your Tomcat log files -->
+			<param name="FileNamePattern" value="logs/log4j.%d.log"/>
+		</rollingPolicy>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d [%t] %-5p %c - %m%n"/>
+		</layout>
+    		<param name="MaxFileSize" value="10MB"/>
+	        <param name="MaxBackupIndex" value="5"/>
+        </appender>
+
+	<!--
+	#
+	# examples for custom jNP debug:
+	#
+	-->
+
+	<!--
+        <logger name="com.etnetera.sqlsynth">
+	    <level value="info" />
+        </logger>	
+	
+        <logger name="com.triactive.jdo">
+	    <level value="info" />
+	</logger>
+
+        <logger name="com.etnetera.jnp">
+	    <level value="info" />
+        </logger>	
+					
+        <logger name="com.etnetera.projects.ami">
+	    <level value="info" />
+        </logger>	
+		
+        <logger name="com.etnetera.jnp.pal">
+	    <level value="info" />
+        </logger>	
+
+        <logger name="org.zweistein">
+	    <level value="info" />
+        </logger>	
+
+        <logger name="org.apache">
+	    <level value="info" />
+        </logger>
+	-->
+
+        <root>
+            <level value ="info" />
+            <appender-ref ref="ROLFILE" />
+        </root>
+</log4j:configuration>

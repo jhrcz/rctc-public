@@ -1,0 +1,115 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+# Sample debian/rules that uses debhelper.
+# This file was originally written by Joey Hess and Craig Small.
+# As a special exception, when this file is copied by dh-make into a
+# dh-make output file, you may use that output file without restriction.
+# This special exception was added by Craig Small in version 0.37 of dh-make.
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+
+
+
+CFLAGS = -Wall -g
+
+ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
+	CFLAGS += -O0
+else
+	CFLAGS += -O2
+endif
+
+configure: configure-stamp
+configure-stamp:
+	dh_testdir
+	# Add here commands to configure the package.
+
+	touch configure-stamp
+
+
+build: build-stamp
+
+build-stamp: configure-stamp 
+	dh_testdir
+
+	# Add here commands to compile the package.
+	#$(MAKE)
+	#docbook-to-man debian/etn-tomcat-rctc.sgml > etn-tomcat-rctc.1
+
+	touch build-stamp
+
+clean:
+	dh_testdir
+	dh_testroot
+	rm -f build-stamp configure-stamp
+
+	# Add here commands to clean up after the build process.
+	#-$(MAKE) clean
+	rm -rf debian/rctc
+	rm -rf tmp
+
+	dh_clean 
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_clean -k 
+	dh_installdirs
+
+	# Add here commands to install the package into debian/etn-tomcat-rctc.
+	$(MAKE) install DESTDIR=$(CURDIR)/debian/rctc
+#	mkdir -p debian/rctc/usr/sbin
+#	mkdir -p debian/rctc/etc/init.d
+#	cp rctc.sh debian/rctc/usr/sbin/rctc
+#	mkdir -p tmp/instance-dir/conf
+#	mkdir -p tmp/instance-dir/platform
+#	cd tmp/instance-dir/platform && ln -sf /usr/lib/etnpol-sun-java-1.5.0 etnpol-sun-java-1.5.x
+#	cd tmp/instance-dir/platform && ln -sf /usr/lib/etnpol-tomcat-5.5.23 etnpol-tomcat-5.5.x
+#	(cd debian/rctc/etc/init.d && ln -s /usr/sbin/rctc rctc-ALL)
+#	cp run.conf tmp/instance-dir
+#	cp run.sh tmp/instance-dir
+#	cp log4j.xml.SAMPLE tmp/instance-dir/conf/log4j.xml.SAMPLE
+#	BASEPORT=15500 bash server.xml.SAMPLE.sh > tmp/instance-dir/conf/server.xml.SAMPLE
+#	cd tmp/instance-dir && tar czf ../instance-dir.tgz . && cd .. && rm -rf instance-dir
+#	mkdir -p debian/rctc/usr/lib/rctc/instance-template
+#	cp tmp/instance-dir.tgz debian/rctc/usr/lib/rctc/instance-template/rctc.tgz
+#	cd debian/rctc/usr/lib/rctc/instance-template && ln -sf  /usr/lib/etnpol-tomcat-5.5.23/instance/core.tgz tomcat-core.tgz
+
+# Build architecture-independent files here.
+binary-indep: build install
+# We have nothing to do by default.
+
+# Build architecture-dependent files here.
+binary-arch: build install
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs 
+	dh_installdocs
+	dh_installexamples
+#	dh_install
+#	dh_installmenu
+#	dh_installdebconf	
+#	dh_installlogrotate
+#	dh_installemacsen
+#	dh_installpam
+#	dh_installmime
+#	dh_installinit
+#	dh_installcron
+#	dh_installinfo
+	dh_installman
+	dh_link
+	dh_strip
+	dh_compress
+	dh_fixperms
+#	dh_perl
+#	dh_python
+#	dh_makeshlibs
+	dh_installdeb
+	dh_shlibdeps
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install configure

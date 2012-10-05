@@ -1,0 +1,12 @@
+Source: rctc
+Section: unknown
+Priority: optional
+Maintainer: jahor <jan.horacek@etnetera.cz>
+Build-Depends: debhelper (>= 4.0.0)
+Standards-Version: 3.6.2
+
+Package: rctc
+Architecture: all
+Depends: ${shlibs:Depends}, ${misc:Depends}, cronic
+Description: <insert up to 60 chars description>
+ <insert long description, indented with spaces>
