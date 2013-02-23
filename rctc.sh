@@ -40,6 +40,8 @@ print_thread_dump()
 	local tcname=$1
 	local jvm_pid
 
+	cd "$INSTANCES_DIR"/"$tcname" || die "missing instance directory"
+
 	jvm_pid=$(get_jvm_pid $tcname)
 	if [ -n "$jvm_pid" ]
 	then
@@ -48,7 +50,11 @@ print_thread_dump()
 		echo "ERROR: thread dump for JVM failed, PID error"
 		return 1
 	fi
-	if jps | grep -q "^$jvm_pid "
+
+	if [ -n "$(
+		echo ' cd "'"$INSTANCES_DIR/$tcname"'" && source run.conf &>/dev/null && $JAVA_HOME/bin/jps ' \
+			| sudo -u tc$tcname bash -ls
+		)" ]
 	then
 		echo "INFO: PID looks OK"
 	else
@@ -56,8 +62,8 @@ print_thread_dump()
 		return 1
 	fi
 
-	cd "$INSTANCES_DIR"/"$tcname" || die "missing directory"
-	sudo -u tc$tcname $JAVA_HOME/bin/jstack ${THREAD_DUMP_JSTACK_PARAMS} $jvm_pid
+	echo ' cd "'"$INSTANCES_DIR/$tcname"'" && source run.conf &>/dev/null  && $JAVA_HOME/bin/jstack ${THREAD_DUMP_JSTACK_PARAMS} "'"$jvm_pid"'"' \
+		| sudo -u tc$tcname bash -ls
 	
 }
 
@@ -105,11 +111,15 @@ else
     set -- $tmpargs
 fi
 
+if [ "$2" = "H" ]
+then
+	tclist=$(pwd | sed -e "s#^$INSTANCES_DIR/##" | cut -d / -f 1)
+fi
+
 if [ "$1" = "list" -a "$2" = "" ]
 then
     tclist=$(get_tclist)
 fi
-
 
 case $1 in
 	start|stop|force-stop)
@@ -168,8 +178,8 @@ case $1 in
 	logtail)
 		echo "$tclist"
 		export GLOBIGNORE='*.gz'
-		exec tail -n 3 -F "$INSTANCES_DIR"/$tclist/logs/*
-		#logtail $( for i $(find /srv/tc/$tclist/logs -type f -maxdepth 1 ) ; do echo -n "-f $i " ; done ; echo)
+		sleep 1
+		exec tail -n 1 -F "$INSTANCES_DIR"/$tclist/logs/*
 	;;
 	init)
 		#log "$1 tclist=$tclist"
@@ -214,7 +224,13 @@ case $1 in
 		then
 			# temporary - we are working only with 1 name per run
 			tcname=$tclist
-			adduser --system -m -d "$INSTANCES_DIR/$tcname" tc$tcname
+			useradd -m -k "" \
+				-K UID_MIN=${INSTANCE_USER_UIDMIN} \
+				-K UID_MAX=${INSTANCE_USER_UIDMAX} \
+				-K GID_MIN=${INSTANCE_USER_GIDMIN} \
+				-K GID_MAX=${INSTANCE_USER_GIDMAX} \
+				-d "$INSTANCES_DIR/$tcname" \
+				tc$tcname
 		else
 			die "I could init only one user."
 		fi
@@ -224,6 +240,13 @@ case $1 in
 		do
 			cd "$INSTANCES_DIR"/"$tcname" || die "missing directory"
 			test -f run.conf || die "missing run.conf"
+
+			THREAD_DUMP_ENABLED=$(source run.conf &>/dev/null ; echo $THREAD_DUMP_ENABLED)
+			if [ "$THREAD_DUMP_ENABLED" != "YES" ]
+			then
+				echo "WARN: thread-dump disabled for this instance"
+				continue
+			fi
 
 			thread_dump_logfile="logs/rctc-thread-dump.$(date "+%F_%T").log"
 			echo "INFO: thread dump file: $thread_dump_logfile"
@@ -241,17 +264,22 @@ case $1 in
 		echo "     * start 		no-comment"
 		echo "     * stop 		no-comment"
 		echo "     * restart 		no-comment"
+		echo ""
 		echo "     * fast-restart 	no-comment"
 		echo "     * kill 		no-comment"
+		echo ""
 		echo "     * status 		print instance status"
 		echo "     * logtail 		log all logs/\*.log logs"
-		echo "     * init 		initialize new instance"
 		echo "     * running 		list running instances "
 		echo "     * thread-dump 	prints thread dump with jstack "
 		echo ""
-		echo "   tclist "
+		echo "     * init 		initialize new instance"
+		echo "     * init-user 		initialize user account for new instance"
+		echo ""
+		echo "   where tclist could be"
 		echo "     * <tcname> ... tomcat intsance name"
 		echo "     * ALL ... expanded to all available instances"
+		echo "     * H ... expanded to instance you are traversing now"
 		echo ""
 	;;
 esac

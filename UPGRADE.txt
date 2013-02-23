@@ -1,3 +1,17 @@
+* release 1.15
+
+- nutny merge cfg rctc.conf po uprave odkazovani psiprobe instance template v INSTANCE_TEMPLATE_FILES
+- nutny merge cfg rctc.conf po uprave INSTANCE_SERVERXML_GENERATOR
+
+* release 1.13
+
+- nutny merge cfg (run.conf) s natavenim thread-dumpu
+- v globalnim configu (rctc.conf) by jiz nemaji byt pritomny nastaveni thread-dumpu
+
+* release 1.10
+
+- v pripade potreby promazavani webapps nastavit CLEAN_WEBAPPS_DIR
+
 * release 1.9 
 
 - starsi threaddumpy prejmenovat na nove schema nebo smazat
