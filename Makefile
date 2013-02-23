@@ -12,6 +12,7 @@ step-install-bin: test-destdir rctc.conf rctc.sh run.conf run.sh
 	
 	# controller script+initscript
 	install -D rctc.sh $(DESTDIR)/usr/sbin/rctc
+	install -D rctc-nonpriv.sh $(DESTDIR)/usr/bin/rctc
 	install -d $(DESTDIR)/etc/init.d/
 	(cd $(DESTDIR)/etc/init.d && ln -sf /usr/sbin/rctc rctc-ALL)
 	
@@ -26,13 +27,18 @@ step-install-bin: test-destdir rctc.conf rctc.sh run.conf run.sh
 
 	# executable
 	install -D run.sh $(DESTDIR)/usr/libexec/rctc/run.sh
-	
+
+	mkdir -p tmp-instance-dir/logs	
 	mkdir -p tmp-instance-dir/logs/logs.ARCHIVE
-	
+	mkdir -p tmp-instance-dir/war
+	mkdir -p tmp-instance-dir/conf/Catalina/localhost
+	mkdir -p tmp-instance-dir/conf/app
+	ln -sf ../../app/ROOT.xml tmp-instance-dir/conf/Catalina/localhost/ROOT.xml
+	ln -sf myapp.xml tmp-instance-dir/conf/app/ROOT.xml
+
 	cd tmp-instance-dir && tar czf ../tmp-instance-dir.tgz . && cd .. && rm -rf tmp-instance-dir
 	
 	install -D tmp-instance-dir.tgz $(DESTDIR)/usr/lib/rctc/instance-template/rctc.tgz
-	cd $(DESTDIR)/usr/lib/rctc/instance-template && ln -sf  /usr/lib/etnpol-tomcat-5.5.23/instance/core.tgz tomcat-core.tgz
 
 	# cron tasks
 	install -D rctc.cron $(DESTDIR)/etc/cron.d/rctc

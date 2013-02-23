@@ -1,6 +1,6 @@
 Name: 		rctc
-Version: 	1.9
-Release:	0%{?dist}
+Version: 	1.15
+Release:	1%{?dist}
 Summary:	Run rctc
 BuildArch: 	noarch
 
@@ -37,18 +37,48 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) %attr(644,root,root) /etc/logrotate.d/rctc-catalinaout
 %config(noreplace) %attr(644,root,root) /etc/cron.d/rctc-catalinaout-logrotate
 %config(noreplace) %attr(644,root,root) /etc/cron.d/rctc
+/usr/bin/rctc
 /usr/sbin/rctc
 /usr/libexec/rctc/run.sh
 /usr/lib/rctc/instance-template/rctc.tgz
-/usr/lib/rctc/instance-template/tomcat-core.tgz
 /usr/sbin/gzip-all-tc-logs.sh
 /usr/sbin/archive-all-tc-logs.sh
 /usr/bin/rctc-run-conf-vs-template-diff.sh
-%doc README.txt scripts CHANGELOG.txt
+%doc README.txt scripts CHANGELOG.txt UPGRADE.txt
 
 
 
 %changelog
+
+* Fri Dec 21 2012 <jahor@jhr.cz> 1.15-1
+- updated jnptemplate with initialSize in jdbc definitions
+
+* Fri Dec 07 2012 <jahor@jhr.cz> 1.15-0
+- tc server.xml generator filename changed
+- inform when thread-dump is disabled
+- detecting missing instance dir during thread-dump before any dir usage
+- psiprobe package changed location of instance template tarball
+- do not reference tomcat version-specific instance template in instance-template dir
+- instance dir should contain prepared war conf/app folders and default ROOT.xml symlink
+
+* Tue Dec 04 2012 <jahor@jhr.cz> 1.14-0
+- fix: swallow non-important output from subshells to not affect parsing
+
+* Tue Dec 04 2012 <jahor@jhr.cz> 1.13-0
+- possibility to toggle on/off for thread dump on stop/kill per instance
+- java env for jstack set in instances run.conf not in global rctc.conf
+
+* Wed Nov 07 2012 <jahor@jhr.cz> 1.12-0
+- explicitne definovany rozsah uid a gid pri zakladani uzivatele
+
+* Sun Nov 04 2012 <jahor@jhr.cz> 1.11-0
+- possibilty to restart instance which is the user traversing with H token
+
+* Thu Oct 11 2012 <jahor@jhr.cz> 1.10-0
+- java 7 as a default
+- configurable purging of webapps dir by setting CLEAN_WEBAPPS_DIR
+- fix debug port to propagate corectly to catalina.sh
+- important upgrade steps in UPGRADE.txt
 
 * Wed Sep 28 2012 <jahor@jhr.cz> 1.9-0
 - oprava pojmenovani threaddumpu aby zpracovavane archivaci logu

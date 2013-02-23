@@ -1,3 +1,32 @@
+- /usr/bin/rctc wrapper for nonprivileged users calling /usr/sbin/rctc with sudo
+
+* release 1.15
+- tc server.xml generator filename changed
+- inform when thread-dump is disabled
+- detecting missing instance dir during thread-dump before any dir usage
+- psiprobe package changed location of instance template tarball
+- do not reference tomcat version-specific instance template in instance-template dir
+- instance dir should contain prepared war conf/app folders and default ROOT.xml symlink
+
+* release 1.14
+- fix: swallow non-important output from subshells to not affect parsing
+
+* release 1.13
+- possibility to toggle on/off for thread dump on stop/kill per instance
+- java env for jstack set in instances run.conf not in global rctc.conf
+
+* release 1.12
+- explicitne definovany rozsah uid a gid pri zakladani uzivatele
+
+* release 1.11
+- possibilty to restart instance which is the user traversing with H token
+
+* release 1.10
+- java 7 as a default
+- configurable purging of webapps dir by setting CLEAN_WEBAPPS_DIR
+- fix debug port to propagate corectly to catalina.sh
+- important upgrade steps in UPGRADE.txt
+
 * release 1.9
 - oprava pojmenovani threaddumpu aby zpracovavane archivaci logu
 - oprava kontroly na run.conf pri nekterych operacich nad instancema
